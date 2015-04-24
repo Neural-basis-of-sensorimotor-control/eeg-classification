@@ -1,11 +1,16 @@
 classdef ScEegClassification < handle
+    methods (Static)
+        function str = tag()
+            str = 'EEG_classification';
+        end
+    end
+    
     properties
         N
         dt
         timepoints
         vvalues
         filter
-        tag
     end
     methods
         function obj = ScEegClassification(N, dt)
@@ -14,7 +19,6 @@ classdef ScEegClassification < handle
             obj.timepoints = [];
             obj.dt = dt;
             obj.N = N;
-            obj.tag = 'EEG_classification';
         end
         function set_v(obj, t, val)
             obj.timepoints = [obj.timepoints; t];
@@ -30,7 +34,7 @@ classdef ScEegClassification < handle
             for k=1:length(obj.timepoints)
                 ind = floor(obj.timepoints(k)/obj.dt)+1;
                 v(prev_ind:ind) = prev_val*ones(ind-prev_ind+1,1);
-                prev_ind = ind+1;
+                prev_ind = max(1,ind+1);
                 prev_val = obj.vvalues(k);
             end
             v(prev_ind:end) = prev_val*ones(obj.N-prev_ind+1,1);
@@ -39,6 +43,15 @@ classdef ScEegClassification < handle
             pos = obj.timepoints>=tmin & obj.timepoints<tmax;
             t = obj.timepoints(pos);
             v = obj.vvalues(pos);
+        end
+        
+        function sc_loadtimes(~)
+        end
+        function trg = triggers(~)
+            trg = ScCellList();
+        end
+        function rmwfs = get_rmwfs(~,~,~)
+            rmwfs = ScList();
         end
     end
 end

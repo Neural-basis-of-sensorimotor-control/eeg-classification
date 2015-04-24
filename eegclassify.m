@@ -1,5 +1,22 @@
 clear
+
+
+
+
+
+
+
+
+
+
+
+
+
+return
+
 directory = '../sc_mat/';
+xlsfile = '../neuro-text/eeg/Enheter efter BENR med möjlig spike-EEG analys.xlsx';
+[~,txt] = xlsread(xlsfile);
 d = what(directory);
 filenames = d.mat;
 found_eeg = false

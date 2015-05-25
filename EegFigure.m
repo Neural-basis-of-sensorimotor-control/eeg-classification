@@ -225,6 +225,7 @@ classdef EegFigure < GuiFigure
             pos = obj.eeg_time >= obj.tmin & obj.eeg_time < obj.tmax;
             cla(obj.ax)
             plot(obj.ax,obj.eeg_time(pos), obj.v_eeg(pos));
+            grid(obj.ax,'on')
             xlim(obj.ax, [obj.tmin obj.tmax]);
             v = obj.eeg_classification.sc_loadsignal;
             cla(obj.ax_classification)

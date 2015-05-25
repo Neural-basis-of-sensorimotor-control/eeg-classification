@@ -12,6 +12,9 @@ classdef ScEegClassification < handle
         vvalues
         filter
     end
+    properties (Dependent)
+        t
+    end
     methods
         function obj = ScEegClassification(N, dt)
             obj.filter = ScSignalFilter(obj);
@@ -44,6 +47,8 @@ classdef ScEegClassification < handle
             t = obj.timepoints(pos);
             v = obj.vvalues(pos);
         end
+        function sc_clear(~)
+        end
         
         function sc_loadtimes(~)
         end
@@ -52,6 +57,9 @@ classdef ScEegClassification < handle
         end
         function rmwfs = get_rmwfs(~,~,~)
             rmwfs = ScList();
+        end
+        function val = get.t(obj)
+            val = ( 0:(obj.N-1) )*obj.dt;
         end
     end
 end

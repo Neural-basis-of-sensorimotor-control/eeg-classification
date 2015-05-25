@@ -1,26 +1,30 @@
 clear
+close all
+%directory = '../sc_mat/';
+[~,txt] = xlsread('../neuro-text/eeg/Enheter efter BENR med möjlig spike-EEG analys.xlsx');
 
-
-
-
-
-
-
-
-
-
-
-
+txt = txt(:,1);
+for k=1:length(txt)
+    str = txt{k};
+    if str(1) == '('
+        str = str(2:end-1);
+    end
+    txt(k) = {str(1:end-4)};
+end
+txt = unique(txt);
+for k=1:length(txt)
+    clf
+    str = txt{k};
+    h = Eeg(sprintf('%s_sc.mat',str));
+    h.plot_eeg(-.1,.1,1e-3,0)
+end
 
 return
-
-directory = '../sc_mat/';
-xlsfile = '../neuro-text/eeg/Enheter efter BENR med mÃ¶jlig spike-EEG analys.xlsx';
-[~,txt] = xlsread(xlsfile);
 d = what(directory);
 filenames = d.mat;
 found_eeg = false
 k = 1;
+
 while ~found_eeg && k<=length(filenames)
     disp(filenames{k})
     expr = load(sprintf('%s%s', directory, filenames{k}));
